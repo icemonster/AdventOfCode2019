@@ -26,8 +26,11 @@ def getAllCoords(wire):
 
 	return pntsWire
 
-pnts1 = set(getAllCoords(wire1))
-pnts2 = set(getAllCoords(wire2))
+pnts1_1 = getAllCoords(wire1)
+pnts2_1 = getAllCoords(wire2)
+
+pnts1 = set(pnts1_1)
+pnts2 = set(pnts2_1)
 
 inters = pnts1 & pnts2
 
@@ -39,3 +42,12 @@ for pnt in inters:
 		best = x
 
 print 'answer:', best
+
+
+best = float('inf')
+for pnt in inters:
+	x = pnts1_1.index(pnt) + pnts2_1.index(pnt) + 2
+	if x < best:
+		best = x
+
+print 'answer2:', best
