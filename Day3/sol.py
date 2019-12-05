@@ -35,19 +35,9 @@ pnts2 = set(pnts2_1)
 inters = pnts1 & pnts2
 
 best = float('inf')
-
-for pnt in inters:
-	x = manhattan(pnt)
-	if x < best:
-		best = x
-
-print 'answer:', best
-
-
-best = float('inf')
 for pnt in inters:
 	x = pnts1_1.index(pnt) + pnts2_1.index(pnt) + 2
-	if x < best:
-		best = x
+	best = min(best, x)
 
+print 'answer1:', min(map(manhattan, inters))
 print 'answer2:', best
