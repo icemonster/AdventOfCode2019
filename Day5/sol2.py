@@ -74,9 +74,7 @@ ip = 0
 while code[ip] != 99:
 	nextOP = code[ip]
 
-	func = int(str(nextOP)[-2:])
-	sz, func = opcodes[func]
-	
+	sz, func = opcodes[nextOP%100]
 	modes = str(nextOP)[:-2].zfill(sz)
 	modes = map(lambda x: modes_op[x], modes)
 
