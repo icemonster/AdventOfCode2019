@@ -4,56 +4,44 @@ class Immediate:
     def __getitem__(self, key):
         return key
 
-def add(machine, modes, ip):
-	x = machine[ip+1]
-	y = machine[ip+2]
-	dst = machine[ip+3]
+def getParam(machine, modes, ip, writable=True):
+	if writable: #If last parameter is writable, its mode must not be 0
+		modes[0] = Immediate()
 
-	#Modes
-	x = modes[2][x]
-	y = modes[1][y]
-	
+	params = []
+	nr = len(modes)
+	for i in range(nr):
+		param = machine[ip + 1 + i]
+		params.append(modes[nr - i - 1][param])
+
+	return params
+
+
+def add(machine, modes, ip):
+	x,y,dst = getParam(machine, modes, ip)
 	machine[dst] = x + y
 
 def mul(machine, modes, ip):
-	x = machine[ip+1]
-	y = machine[ip+2]
-	dst = machine[ip+3]
-
-	x = modes[2][x]
-	y = modes[1][y]
-	
+	x,y,dst = getParam(machine, modes, ip)
 	machine[dst] = x * y
 
 def inp(machine, modes, ip):
 	dst = machine[ip+1]
-	x = int(raw_input())
-	machine[dst] = x
+	machine[dst] = int(raw_input())
 
 def out(machine, modes, ip):
 	o = machine[ip+1]
 	o = modes[0][o]
 	print o
 
-
 def jmp(machine, modes, _, cond):
 	global ip
-	x = machine[ip+1]
-	y = machine[ip+2]
-
-	x = modes[1][x]
-	newIP = modes[0][y]
-
+	x,newIP = getParam(machine, modes, ip, writable=False)
 	if cond(x):
 		ip = newIP - 3 #IP will increment 3 units after this OPcode automatically
 
 def condStore(machine, modes, ip, cond):
-	x = machine[ip+1]
-	y = machine[ip+2]
-	dst = machine[ip+3]
-
-	x = modes[2][x]
-	y = modes[1][y]
+	x,y,dst = getParam(machine, modes, ip)
 	
 	toStore = 0
 	if cond(x,y):
@@ -61,8 +49,10 @@ def condStore(machine, modes, ip, cond):
 
 	machine[dst] = toStore
 
+#Greatest way to get an enumerate
 ADD, MUL, INP, OUT, JT, JF, LT, EQ = range(1,9)
 
+#Most abstract code ever made
 diffTZero = lambda x: x != 0
 eqZero = lambda x: x == 0
 eq = lambda x,y: x == y
@@ -86,8 +76,9 @@ while code[ip] != 99:
 
 	func = int(str(nextOP)[-2:])
 	sz, func = opcodes[func]
+	
 	modes = str(nextOP)[:-2].zfill(sz)
-
 	modes = map(lambda x: modes_op[x], modes)
+
 	func(code, modes, ip)
 	ip += (sz+1) #Instr len = number of parameters + 1 (opcode)
