@@ -31,15 +31,7 @@ def respect_rules2(num):
 
 	return any(l) #If there is any matching double...
 
-total = 0
-total2 = 0
-for num in range(273025,767253):
-	numS = str(num)
-	if respect_common_rules(numS):
-		if respect_rules(numS):
-			total += 1
-		if respect_rules2(numS):
-			total2 += 1
-
-print 'Answer:', total
-print 'Answer2:', total2
+nums = range(273025,767253)
+nums = filter(respect_common_rules, map(str, nums))
+print 'Answer:', len(filter(respect_rules, nums))
+print 'Answer2:', len(filter(respect_rules2, nums))
