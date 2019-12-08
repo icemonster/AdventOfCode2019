@@ -12,7 +12,7 @@ for layer in layers:
 		bestVal = layer.count('0')
 		best = layer.count('1')*layer.count('2')
 
-print 'Answer1:', best 
+print('Answer1:', best )
 
 finalLayer = ''
 for i in range(150):
@@ -22,12 +22,6 @@ for i in range(150):
 			cur = layer[i]
 	finalLayer += cur
 
-for row in range(6):
-	s = ''
-	for col in range(25):
-		e = finalLayer[row*6+col]
-		if e == '0':
-			s += ' '
-		elif e == '1':
-			s += '0'
-	print s
+finalLayer = finalLayer.replace('0',' ')
+for i in range(0,len(finalLayer), 25):
+	print(finalLayer[i:i + 25])
