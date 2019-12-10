@@ -3,7 +3,7 @@ from math import *
 
 def priority(center, line):
 	eq = (line[0]-center[0], line[1]-center[1])
-	return -(degrees(atan2(eq[0], eq[1]))+180) % 360
+	return (-(degrees(atan2(eq[0], eq[1]))+180) % 360, -eq[0]**2 -eq[1]**2)
 
 def normalize(line):
 	a = GCD(line[0], line[1])
