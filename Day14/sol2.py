@@ -6,35 +6,16 @@ class Reaction:
 		self.inputs.append((name, quantity))
 	def addOutput(self, name, quantity):
 		self.outputs.append((name, quantity))
-	def hasInput(self, name):
-		for inp in self.inputs:
-			if inp[0] == name:
-				return True
-		return False
 	def hasOutput(self, name):
 		for out in self.outputs:
 			if out[0] == name:
 				return True
 		return False
-	def getInpQuantity(self, name):
-		for inp in self.inputs:
-			if inp[0] == name:
-				return inp[1]
-		assert False
 	def getOutQuantity(self, name):
 		for out in self.outputs:
 			if out[0] == name:
 				return out[1]
 		assert False
-	def __repr__(self):
-		s = ''
-		for inp in self.inputs:
-			s += str(inp[1])+' '+inp[0]+','
-		s = s[:-1]
-		s += ' => '
-		for out in self.outputs:
-			s += str(out[1])+' '+out[0]+','
-		return s[:-1]
 
 def parseLine(line):
 	r = Reaction()
