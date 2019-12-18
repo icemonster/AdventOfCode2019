@@ -89,12 +89,11 @@ def canFindFuel(nr):
 
 lower = 1
 upper = 10000000000
-current = 10 #Initial value does not matter
-while current-lower > 1 or upper-current > 1:
+while upper-lower != 1:
 	current = (lower + upper)/2
 	if canFindFuel(current):
 		lower = current
 	else:
 		upper = current
 
-print current
+print 'answer 2:', current
